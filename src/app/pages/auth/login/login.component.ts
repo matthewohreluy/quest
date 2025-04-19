@@ -22,13 +22,11 @@ export class LoginComponent{
   snackbar = inject(SnackBarService);
   authService = inject(AuthService);
   router = inject(Router);
-  isLoading = this.authService.isLoading;
-  isTokenAvailable = this.authService.isTokenAvailable;
-  tokenId = this.authService.tokenId;
+
 
   constructor() {
       effect(()=>{
-        const loading = this.isLoading();
+        const loading = this.authService.isLoading();
         const emailControl = this.loginForm.controls['email'];
         if(!emailControl) return;
 
@@ -39,8 +37,8 @@ export class LoginComponent{
         }
       })
       effect(()=>{
-        const hasToken = this.isTokenAvailable();
-        const tokenId = this.tokenId();
+        const hasToken = this.authService.isTokenAvailable();
+        const tokenId = this.authService.tokenId();
 
         if(hasToken){
           this.router.navigate(['/auth/verify-email'],{

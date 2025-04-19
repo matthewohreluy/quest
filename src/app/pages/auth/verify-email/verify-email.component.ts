@@ -21,7 +21,6 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
   subscription: Subscription = new Subscription();
 
 
-  isLoading = this.authService.isLoading;
 
   tokenForm: FormGroup = new FormGroup({
     code1: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(1), Validators.minLength(1)])),
@@ -34,7 +33,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
 
   constructor(){
     effect(()=>{
-      const loading = this.isLoading();
+      const loading = this.authService.isLoading();
       if(loading) this.tokenForm.disable();
       else this.tokenForm.enable();
     })
@@ -80,11 +79,36 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
           }
         })
       );
+
+      this.subscription.add(
+        fromEvent<ClipboardEvent>(
+          this.el.nativeElement.querySelector(`[formcontrolname=code${i}`),'paste'
+        ).subscribe((event)=>{
+          const pastedData = event.clipboardData?.getData('text')?.trim() ?? '';
+          if (/^\d{6}$/.test(pastedData)) {
+            event.preventDefault(); // Stop default paste
+            this.fillPastedCode(pastedData);
+          }
+        })
+      );
     }
+
+
     const firstInput = this.el.nativeElement.querySelector('[formcontrolname="code1"]');
     if (firstInput) {
       firstInput.focus();
     }
+  }
+
+  fillPastedCode(code: string) {
+    for (let i = 0; i < 6; i++) {
+      const char = code.charAt(i);
+      this.tokenForm.controls['code' + (i + 1)].setValue(char);
+    }
+
+    // Focus the last input
+    const lastInput = this.el.nativeElement.querySelector('[formcontrolname="code6"]');
+    lastInput?.focus();
   }
 
   moveBack(index: number){

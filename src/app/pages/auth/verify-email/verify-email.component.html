@@ -1,13 +1,15 @@
 <div class="flex items-center justify-center flex-col fade-in">
-
   <div class="w-56 mb-8 flex items-center justify-center">
-    <img class="w-full" src="auth/email.png" alt="">
+    <img class="w-full" src="auth/email.png" alt="" />
   </div>
 
   <div class="w-full mb-8">
-    <h3 class="text-center font-bold text-gray-800 mb-3">Email Code Verification</h3>
+    <h3 class="text-center font-bold text-gray-800 mb-3">
+      Email Code Verification
+    </h3>
     <div class="text-center text-sm/4 text-gray-400 font-medium">
-      Enter the verification code we sent to {{authService.maskedEmail() ?? '********@****.com'}}
+      Enter the verification code we sent to
+      {{ authService.maskedEmail() ?? "********@****.com" }}
     </div>
   </div>
 
@@ -15,29 +17,77 @@
     <form [formGroup]="tokenForm" (ngSubmit)="onSubmit()">
       <!-- Input Container -->
       <div class="flex space-x-3 mb-8">
-        <input maxlength="1" formControlName="code1" class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center" type="text">
-        <input maxlength="1" formControlName="code2" class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center" type="text">
-        <input maxlength="1" formControlName="code3" class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center" type="text">
-        <input maxlength="1" formControlName="code4" class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center" type="text">
-        <input maxlength="1" formControlName="code5" class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center" type="text">
-        <input maxlength="1" formControlName="code6" class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center" type="text">
+        <input
+          maxlength="1"
+          formControlName="code1"
+          class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center"
+          type="text"
+        />
+        <input
+          maxlength="1"
+          formControlName="code2"
+          class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center"
+          type="text"
+        />
+        <input
+          maxlength="1"
+          formControlName="code3"
+          class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center"
+          type="text"
+        />
+        <input
+          maxlength="1"
+          formControlName="code4"
+          class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center"
+          type="text"
+        />
+        <input
+          maxlength="1"
+          formControlName="code5"
+          class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center"
+          type="text"
+        />
+        <input
+          maxlength="1"
+          formControlName="code6"
+          class="p-3 border border-gray-300 rounded-md text-3xl text-gray-600 placeholder:text-gray-500 placeholder:font-medium focus:border-gray-400 focus-visible:outline-none focus:placeholder:text-gray-600 w-14 h-14 text-center"
+          type="text"
+        />
       </div>
       <!-- Button Container -->
       <div class="w-full flex items-center justify-center">
         <quest-button
-        variant="primary"
-        customClass='w-40'
-        [type]="'submit'"
-        [isDisabled]="!tokenForm.valid || authService.isLoading() || authService.isResendDisabled()"
-        >Verify</quest-button>
+          variant="primary"
+          customClass="w-40"
+          [type]="'submit'"
+          [isDisabled]="
+            !tokenForm.valid ||
+            authService.isLoading() ||
+            authService.isResendDisabled()
+          "
+          >Verify</quest-button
+        >
       </div>
     </form>
   </div>
-   <!-- Didn't get the code -->
-   <div class="text-sm">
-    <span class="text-center text-sm/4 text-gray-400 font-medium">Didn't Get the code?
-    <button (click)="resendCode()" [disabled]="authService.isLoading()" class="disabled:text-gray-400 disabled:opacity-50 disabled:cursor-default cursor-pointer text-sky-600 hover:text-sky-500 transition-colors duration-300">Resend Code</button> or
-    <button [disabled]="authService.isLoading()" class="disabled:text-gray-400 disabled:opacity-50 disabled:cursor-default text-sky-600 hover:text-sky-500 transition-colors duration-300 cursor-pointer">Contact Us</button>
-  </span>
+  <!-- Didn't get the code -->
+  <div class="text-sm">
+    <span class="text-center text-sm/4 text-gray-400 font-medium"
+      >Didn't Get the code?
+      <button
+        (click)="resendCode()"
+        [disabled]="authService.isLoading() || authService.isResendDisabled()"
+        class="disabled:text-gray-400 disabled:opacity-50 disabled:cursor-default cursor-pointer text-sky-600 hover:text-sky-500 transition-colors duration-300"
+      >
+        Resend Code
+      </button>
+      or
+      <button
+        [disabled]="authService.isLoading()"
+        class="disabled:text-gray-400 disabled:opacity-50 disabled:cursor-default text-sky-600 hover:text-sky-500 transition-colors duration-300 cursor-pointer"
+      >
+        Contact Us
+      </button>
+    </span>
   </div>
 </div>

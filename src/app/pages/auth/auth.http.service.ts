@@ -2,7 +2,6 @@ import { Injectable, computed, inject } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { AuthStore } from "./auth.store";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +19,7 @@ export class AuthHttpService{
   }
 
   resendToken(loginTokenId: string):Observable<{id: string}>{
+    // check if resendisDisabled
     const body = {
       loginTokenId
     };

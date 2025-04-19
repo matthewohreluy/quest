@@ -1,9 +1,12 @@
-import { computed, inject } from "@angular/core";
-import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { computed, effect, inject } from "@angular/core";
+import { patchState, signalStore, watchState, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap, tap } from "rxjs";
+import { filter, of, pipe, switchMap, tap } from "rxjs";
 import { tapResponse } from '@ngrx/operators';
 import { AuthHttpService } from "./auth.http.service";
+import { StorageService } from "../../core/services/storage.service";
+
+const DEFAULT_TIME = 60;
 
 type AuthState = {
   email: string;
@@ -17,14 +20,18 @@ const initialState: AuthState = {
   email: '',
   tokenId: '',
   isLoading: false,
-  resendTimer: 60,
+  resendTimer: DEFAULT_TIME,
   isResendDisabled: false
 }
 
 export const AuthStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withMethods((store, authHttpService = inject(AuthHttpService))=>({
+  withMethods((
+    store,
+    authHttpService = inject(AuthHttpService),
+    storageService = inject(StorageService)
+    )=>({
     setToken(tokenId: string){
       patchState(store,{tokenId})
     },
@@ -39,17 +46,22 @@ export const AuthStore = signalStore(
         )
       ),
     resendToken(){
-      patchState(store, { isLoading: true });
-      authHttpService.resendToken(store.tokenId()).subscribe({
+      of(store.isResendDisabled()).pipe(
+        filter(isResendDisabled=>!isResendDisabled),
+        tap(()=>patchState(store, { isLoading: true })),
+        switchMap(()=>authHttpService.resendToken(store.tokenId()))
+      ).subscribe({
         next: ({ id }) => {
-          patchState(store, { tokenId: id, isLoading: false });
+          const expiry = Date.now() + 60_00;
+          storageService.localStorageSet('resend_expiry',expiry);
+          patchState(store, { tokenId: id, isLoading: false, isResendDisabled: true ,resendTimer: DEFAULT_TIME });
         },
         error: () => {
           patchState(store, { isLoading: false });
         }
       });
     }
-    }
+  }
   )),
   withComputed((store)=>({
     isTokenAvailable: computed(()=>{
