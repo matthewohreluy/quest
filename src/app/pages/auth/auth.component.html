@@ -1,0 +1,33 @@
+<!-- Main Container -->
+<div class="flex h-screen">
+  <!-- Left Container -->
+  <div class="w-full lg:w-1/2 flex flex-col items-center justify-center sm:p-8 p-4">
+    <!-- Sign in Card -->
+    <router-outlet/>
+    <!-- footer -->
+    <div class="w-full">
+      <!-- footer container -->
+      <div class="w-full flex justify-between items-center">
+        <div>
+          <span class="text-xs">© 2025 Sourcepass</span>
+        </div>
+        <div class="space-x-6">
+          <a href="#" class="text-xs font-medium text-sky-600 hover:text-sky-500 transition-colors duration-300">Portal Terms of Use</a>
+          <a href="#" class="text-xs font-medium text-sky-600 hover:text-sky-500 transition-colors duration-300">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Container -->
+  <div class="hidden lg:block lg:w-1/2 bg-[url(/auth/auth-bg.png)] bg-center bg-no-repeat bg-cover">
+    <div class="w-full h-full p-8 flex flex-col items-center justify-center">
+      <img src="auth/sourcepass-white.png" alt="" class="w-80 mb-24">
+      <img src="auth/quest-app.png" alt="" class="w-md mb-4">
+      <h2 class="text-white font-semibold mb-4 tracking-tight">Fast, Efficient and Productive</h2>
+      <p class="w-lg text-center text-slate-200 text-sm leading-6">
+        Gain access to <a class="font-bold text-amber-400 hover:text-amber-500" href="https://www.sourcepass.com/quest">Quest™</a>, our innovative and powerful platform that delivers a next generation client experience with quick access to service details, real-time project status, and powerful automation for onboarding new employees and more.
+      </p>
+    </div>
+  </div>
+</div>

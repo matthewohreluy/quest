@@ -1,1 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+
+@layer base {
+  h1,h2,h3,h4,h5,h6,p,a,span,input{
+    @apply font-sans;
+  }
+  h1 {
+    @apply text-4xl font-bold text-black;
+  }
+  h2 {
+    @apply text-3xl font-semibold text-black;
+  }
+  h3 {
+    @apply text-2xl font-semibold text-black;
+  }
+  h4 {
+    @apply text-xl font-medium text-black;
+  }
+  h5 {
+    @apply text-lg font-medium text-black;
+  }
+  h6 {
+    @apply text-base font-medium text-black;
+  }
+}
+
+@theme{
+  --font-sans:  "Inter", "Helvetica", "sans-serif";
+}
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slide-up 0.7s ease-out;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in{
+  animation: fadeIn 0.5s forwards;
+}
+
+
+

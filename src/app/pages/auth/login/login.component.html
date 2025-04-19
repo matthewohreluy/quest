@@ -1,0 +1,48 @@
+<div>
+  <!-- logo -->
+  <div class="w-full mb-8">
+    <img src="auth/quest-logo.svg" alt="">
+  </div>
+  <!-- Sign in with Microsoft or Google -->
+  <div class="w-full">
+    <h4 class="text-center font-bold text-gray-800 mb-3">Sign In</h4>
+  <div class="text-center text-sm/4 text-gray-400 mb-8 font-medium">Login using the following options</div>
+  <div class="flex flex-col sm:flex-row gap-8 items-center justify-between mb-8">
+    <a href="#" customClass="w-full" [qBtn]="'transparent'" [disabled]="isLoading()"><img src="auth/login-microsoft.svg" alt="" class="w-6">Microsoft</a>
+    <a href="#" customClass="w-full" [qBtn]="'transparent'" [disabled]="isLoading()"><img src="auth/login-google.svg" alt="" class="w-6">Google</a>
+  </div>
+  <!-- Divider -->
+  <div class="flex items-center space-x-2 mb-8">
+    <div class="flex-grow border-t border-gray-300"></div>
+    <span class="text-xs/4 text-gray-400 font-medium"> Or with email </span>
+    <div class="flex-grow border-t border-gray-300"></div>
+  </div>
+  <!-- Or Sign In with Email -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="w-full mb-8">
+      <quest-input
+      [customClass]="'w-full'"
+      [placeholder]="'Email'"
+      [type]="'email'"
+      [hasError]="false"
+      formControlName="email"
+      ></quest-input>
+    </div>
+    <!-- Sign In button -->
+    <div class="w-full mb-8">
+      <quest-button
+      variant="primary"
+      customClass='w-full'
+      [type]="'submit'"
+      [isLoading]="isLoading()"
+      [isLoadingMessage]="'Signing In...'"
+      >Sign In</quest-button>
+    </div>
+  </form>
+  <!-- Need Help -->
+  <div class="text-sm">
+    <span class="text-gray-500 font-medium">Need help? </span>
+    <a href="#" class="text-sky-600 hover:text-sky-500 transition-colors duration-300">Contact Sourcepass</a>
+  </div>
+  </div>
+</div>

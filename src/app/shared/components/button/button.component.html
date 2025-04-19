@@ -1,0 +1,18 @@
+<button
+  [type]="type"
+  [qBtn]="variant"
+  [customClass]="customClass"
+  [disabled]="isDisabled || isLoading"
+  (click)="handleClick($event)"
+  >
+
+  @if(isLoading){
+    <quest-spinner [color]="'text-gray-600'" [size]="'size-5'"/>
+  }
+
+  @if(isLoadingMessage && isLoading){
+    {{isLoadingMessage}}
+  }@else {
+    <ng-content/>
+  }
+  </button>
