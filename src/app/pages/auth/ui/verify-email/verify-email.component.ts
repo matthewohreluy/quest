@@ -1,10 +1,11 @@
 import { Component, effect, ElementRef, inject, OnDestroy, OnInit } from '@angular/core';
-import { AuthStore } from '../auth.store';
-import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { distinctUntilChanged, filter, fromEvent, map, Subscription, tap } from 'rxjs';
-import { AuthService } from '../auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ButtonComponent } from '@app/shared/components/button/button.component';
+import { AuthService } from '@app/pages/auth/data-access/auth.service';
+
+
 
 @Component({
   selector: 'quest-verify-email',
@@ -17,6 +18,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
   authService = inject(AuthService);
   el = inject(ElementRef);
   route = inject(ActivatedRoute);
+  router = inject(Router);
 
   subscription: Subscription = new Subscription();
 
@@ -40,6 +42,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.authService.initResendCountdownIfNeeded();
     this.initForm();
     this.initData();
   }
@@ -52,7 +55,16 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
   }
 
   resendCode(){
-    this.authService.resendToken()
+    this.authService.resendToken().subscribe({
+      next: (id) => {
+        this.router.navigate([],{
+          relativeTo: this.route,
+          queryParams: { id },
+          queryParamsHandling: 'merge',
+          replaceUrl: true
+        })
+      }
+    });
   }
 
   initForm(){
@@ -137,19 +149,22 @@ export class VerifyEmailComponent implements OnInit, OnDestroy{
   }
 
   onSubmit(){
+    const id = this.authService.tokenId();
     let token: string = '';
     for(let key in this.tokenForm.value){
       token+=this.tokenForm.value[key];
     }
 
-    // const data = {
-    //   id: this.id,
-    //   token: token
-    // }
+    const data = {
+      id: id,
+      token: token
+    }
+    this.authService.verifyEmailTokenLogin(data).subscribe()
   }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+
 
 }

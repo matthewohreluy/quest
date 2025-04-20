@@ -61,9 +61,8 @@
           customClass="w-40"
           [type]="'submit'"
           [isDisabled]="
-            !tokenForm.valid ||
-            authService.isLoading() ||
-            authService.isResendDisabled()
+            tokenForm.invalid ||
+            authService.isLoading()
           "
           >Verify</quest-button
         >
@@ -79,7 +78,7 @@
         [disabled]="authService.isLoading() || authService.isResendDisabled()"
         class="disabled:text-gray-400 disabled:opacity-50 disabled:cursor-default cursor-pointer text-sky-600 hover:text-sky-500 transition-colors duration-300"
       >
-        Resend Code
+        {{authService.isResendDisabled() ? 'Resend in ' + authService.resendTimer() + ' seconds' : 'Resend Code'}}
       </button>
       or
       <button

@@ -44,6 +44,8 @@ export class SnackBarService{
         return 10000;
       case 'short':
         return 5000;
+      case 'dev':
+        return 100000000;
       default:
         return this.getSnackbarDuration('medium');
     }

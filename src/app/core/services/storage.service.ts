@@ -19,4 +19,20 @@ export class StorageService{
   localStorageRemove(name: string){
     localStorage.removeItem(name);
   }
+
+
+  sessionStorageSet(name: string,object: any){
+    const stringifyObject = JSON.stringify(object);
+    sessionStorage.setItem(name, stringifyObject);
+  }
+
+  sessionStorageGet(name: string): any{
+   const object = sessionStorage.getItem(name)
+   if(!object) return '';
+   return JSON.parse(object);
+  }
+
+  sessionStorageRemove(name: string){
+    localStorage.removeItem(name);
+  }
 }

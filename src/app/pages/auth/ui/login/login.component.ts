@@ -1,11 +1,11 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { InputComponent } from '../../../shared/input/input.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { QBtnDirective } from '../../../shared/components/button/button.directive';
-import { AuthService } from '../auth.service';
-import { SnackBarService } from '../../../core/components/snackbar/snackbar.service';
 import { Router } from '@angular/router';
+import { AuthService } from '@app/pages/auth/data-access/auth.service';
+import { ButtonComponent } from '@app/shared/components/button/button.component';
+import { InputComponent } from '@app/shared/input/input.component';
+import { QBtnDirective } from '@app/shared/components/button/button.directive';
+import { SnackBarService } from '@app/core/components/snackbar/snackbar.service';
 
 @Component({
   selector: 'quest-login',
@@ -36,20 +36,18 @@ export class LoginComponent{
           emailControl.enable();
         }
       })
-      effect(()=>{
-        const hasToken = this.authService.isTokenAvailable();
-        const tokenId = this.authService.tokenId();
 
-        if(hasToken){
-          this.router.navigate(['/auth/verify-email'],{
-            queryParams: { id: tokenId }
-          })
-        }
-      })
   }
 
   onSubmit(){
-    this.authService.login(this.loginForm.controls['email'].value!)
+    this.authService.login(this.loginForm.controls['email'].value!).subscribe({
+      next: (tokenId)=>{
+            console.log(tokenId)
+            this.router.navigate(['/auth/verify-email'],{
+            queryParams: { id: tokenId },
+            })
+        }
+    })
   }
 }
 

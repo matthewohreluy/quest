@@ -1,8 +1,6 @@
 import { Injectable, computed, inject } from "@angular/core";
-import { environment } from "../../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
 import { AuthStore } from "./auth.store";
+import { TokenLoginRequest } from "./models/auth.model";
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +15,11 @@ export class AuthService{
   readonly maskedEmail = computed(()=>this.store.maskedEmail());
   readonly isTokenAvailable = computed(()=>this.store.isTokenAvailable());
   readonly tokenId = computed(()=>this.store.tokenId());
-  readonly isResendDisabled = computed(()=>this.store.isResendDisabled())
+  readonly isResendDisabled = computed(()=>this.store.isResendDisabled());
+  readonly resendTimer = computed(()=>this.store.resendTimer());
 
   login(email: string){
-    this.store.login(email);
+   return this.store.login(email);
   }
 
   setToken(id: string){
@@ -28,7 +27,15 @@ export class AuthService{
   }
 
   resendToken(){
-    this.store.resendToken();
+   return this.store.resendToken();
+  }
+
+  verifyEmailTokenLogin(data: TokenLoginRequest){
+    return this.store.verifyEmailTokenLogin(data)
+  }
+
+  initResendCountdownIfNeeded(){
+    this.store.initResendCountdownIfNeeded();
   }
 
 }

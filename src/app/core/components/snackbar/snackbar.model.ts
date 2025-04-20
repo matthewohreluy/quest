@@ -17,4 +17,4 @@ export interface SnackbarRequest extends SnackbarBase{
   durationType: DurationType;
 }
 
-export type DurationType = 'short' | 'medium' | 'long'
+export type DurationType = 'short' | 'medium' | 'long' | 'dev';
